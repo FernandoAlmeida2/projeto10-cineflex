@@ -1,22 +1,36 @@
 import styled from "styled-components";
 import DayOptions from "./DayOptions";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Schedule({
-  setIdSession,
-  days,
+  movieIdSelected,
   setShowtimeId,
   setScreen,
 }) {
+  const [chosenMovie, setChosenMovie] = useState(null);
+  useEffect(() => {
+    axios
+      .get(
+        `https://mock-api.driven.com.br/api/v5/cineflex/movies/${movieIdSelected}/showtimes`
+      )
+      .then((res) => setChosenMovie(res.data))
+      .catch((err) => console.log(err.response.data));
+  }, [movieIdSelected]);
+
+  if (chosenMovie === null) {
+    return <h1>Carregando...</h1>;
+  }
   return (
     <ScheduleStyle>
       <ScheduleTitle>
         <p>Selecione o horário</p>
       </ScheduleTitle>
       <div>
-        {days.map((day, i) => (
+        {chosenMovie.days.map((day, i) => (
           <DayOptions
+            key={day.id}
             day={day}
-            setIdSession={setIdSession}
             setShowtimeId={setShowtimeId}
             setScreen={setScreen}
           />

@@ -1,22 +1,15 @@
 import styled from "styled-components";
-import Movie1 from "../assets/img/Movie1.jpg";
-import Movie2 from "../assets/img/Movie2.jpeg";
-import Movie3 from "../assets/img/Movie3.JPG";
-import Movie4 from "../assets/img/Movie4.jpg";
-import Movie5 from "../assets/img/Movie5.jpeg";
-import Movie6 from "../assets/img/Movie6.png";
-const MOVIES = [Movie1, Movie2, Movie3, Movie4, Movie5, Movie6];
 
-export default function Movie({ id, setScreen, setMovieIdOption }) {
+export default function Movie({ movie, setScreen, setMovieOption }) {
 
   function optionSelected(){
     setScreen("schedule");
-    setMovieIdOption(1);
+    setMovieOption(movie);
   }
 
   return (
     <MovieStyle>
-      <img src={MOVIES[id]} alt={MOVIES[id]} onClick={optionSelected} />
+      <img src={movie.posterURL} alt="Não foi possível carregar a imagem" onClick={optionSelected} />
     </MovieStyle>
   );
 }

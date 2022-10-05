@@ -1,21 +1,35 @@
 import styled from "styled-components";
 import Movie from "./Movie";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-const MOVIES = [1, 2, 3, 4, 5, 6];
+export default function Home({ setScreen, setMovieOption }) {
+  const [movies, setMovies] = useState([]);
+  useEffect(() => {
+    axios
+      .get("https://mock-api.driven.com.br/api/v5/cineflex/movies")
+      .then((res) => setMovies(res.data))
+      .catch((err) => console.log(err.response.data));
+  }, []);
 
-export default function Home({ setScreen, setMovieIdOption }) {
+  if(movies.length === 0){
+    return(
+      <h1>Carregando...</h1>
+    )
+  }
+
   return (
     <HomeStyle>
       <HomeTitle>
         <p>Selecione o filme</p>
       </HomeTitle>
       <MoviesStyle>
-        {MOVIES.map((i) => (
+        {movies.map((movie) => (
           <Movie
-            key={i}
-            id={i}
+            key={movie.id}
+            movie={movie}
             setScreen={setScreen}
-            setMovieIdOption={setMovieIdOption}
+            setMovieOption={setMovieOption}
           />
         ))}
       </MoviesStyle>

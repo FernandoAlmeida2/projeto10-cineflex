@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
-export default function DayOptions({ day, setIdSession, setShowtimeId, setScreen }) {
-  
-  function showtimeSelected(showtimeId){
-    setIdSession(day.showtimes.id);
+export default function DayOptions({ day, setShowtimeId, setScreen }) {
+  function showtimeSelected(showtimeId) {
     setShowtimeId(showtimeId);
     setScreen("seats");
   }
@@ -14,7 +12,12 @@ export default function DayOptions({ day, setIdSession, setShowtimeId, setScreen
       </h1>
       <div>
         {day.showtimes.map((showtime, i) => (
-          <ShowtimeButton key={i} onClick={() => showtimeSelected(showtime.id)} >{showtime.name}</ShowtimeButton>
+          <ShowtimeButton
+            key={showtime.id}
+            onClick={() => showtimeSelected(showtime.id)}
+          >
+            {showtime.name}
+          </ShowtimeButton>
         ))}
       </div>
     </DayStyle>

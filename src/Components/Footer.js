@@ -1,18 +1,10 @@
 import styled from "styled-components";
-import Movie1 from "../assets/img/Movie1.jpg";
-import Movie2 from "../assets/img/Movie2.jpeg";
-import Movie3 from "../assets/img/Movie3.JPG";
-import Movie4 from "../assets/img/Movie4.jpg";
-import Movie5 from "../assets/img/Movie5.jpeg";
-import Movie6 from "../assets/img/Movie6.png";
-const MOVIES = [Movie1, Movie2, Movie3, Movie4, Movie5, Movie6];
 
-export default function Footer({ id, title }) {
-    title = "O escafandro e a borboleta";
+export default function Footer({ imageSrc, title }) {
   return (
     <FooterStyle>
       <MovieDiv>
-        <img src={Movie1} alt={MOVIES[id]}></img>
+        <img src={imageSrc} alt={"Não foi possível carregar a imagem"}></img>
       </MovieDiv>
       <p>{title}</p>
     </FooterStyle>
@@ -48,7 +40,7 @@ const MovieDiv = styled.div`
   align-items: center;
   margin-left: 2.67vw;
 
-  img{
+  img {
     width: 12.8vw;
     height: 8vh;
   }

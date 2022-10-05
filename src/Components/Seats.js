@@ -1,14 +1,30 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-export default function Seats({ movieSeats, seatsSelected, selectTheSeat }) {
+export default function Seats({ showtimeId, seatsSelected, selectTheSeat }) {
+  const [movieSeats, setMovieSeats] = useState(null);
+  useEffect(() => {
+    axios
+      .get(
+        `https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${showtimeId}/seats`
+      )
+      .then((res) => setMovieSeats(res.data))
+      .catch((err) => console.log(err.response.data));
+  }, [showtimeId]);
+
+  if (movieSeats === null) {
+    return <h1>Carregando...</h1>;
+  }
+  console.log(movieSeats)
+
   return (
     <SeatStyle>
       <SeatsTitle>
         <p>Selecione o(s) assento(s)</p>
       </SeatsTitle>
       <SeatsListStyle>
-        {movieSeats.map((seat, i) => (
+        {movieSeats.seats.map((seat, i) => (
           <SeatButton
             key={seat.id}
             onClick={() => seat.isAvailable && selectTheSeat(seat.id)}
