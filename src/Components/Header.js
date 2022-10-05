@@ -15,6 +15,8 @@ const HeaderStyle = styled.div`
   align-items: center;
   width: 100vw;
   height: 8vh;
+  position: absolute;
+  top: 0;
 
   h1{
     font-weight: 400;

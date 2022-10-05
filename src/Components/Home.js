@@ -29,6 +29,7 @@ const HomeStyle = styled.main`
   align-items: center;
   font-family: "Roboto", sans-serif;
   overflow-y: auto;
+  margin-top: 8vh;
 `;
 
 const HomeTitle = styled.div`

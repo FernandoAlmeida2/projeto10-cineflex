@@ -27,9 +27,12 @@ export default function Schedule({
 }
 
 const ScheduleStyle = styled.main`
+  height: 78vh;
   display: flex;
   flex-direction: column;
   font-family: "Roboto", sans-serif;
+  margin: 8vh 0 13.4vh 0;
+  overflow-y: auto;
 
   div {
     margin-left: 2vw;
@@ -40,7 +43,7 @@ const ScheduleTitle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 13vh;
+  margin: 5vh 0;
 
   p {
     font-weight: 400;
