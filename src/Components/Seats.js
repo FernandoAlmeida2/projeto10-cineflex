@@ -1,9 +1,19 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 
-export default function Seats({ showtimeId, seatsSelected, selectTheSeat }) {
-  const [movieSeats, setMovieSeats] = useState(null);
+export default function Seats({
+  showtimeId,
+  seatsSelected,
+  selectTheSeat,
+  nameInput,
+  setNameInput,
+  cpfInput,
+  setCpfInput,
+  setScreen,
+  movieSeats,
+  setMovieSeats,
+}) {
   useEffect(() => {
     axios
       .get(
@@ -11,12 +21,15 @@ export default function Seats({ showtimeId, seatsSelected, selectTheSeat }) {
       )
       .then((res) => setMovieSeats(res.data))
       .catch((err) => console.log(err.response.data));
-  }, [showtimeId]);
+  }, [showtimeId, setMovieSeats]);
 
   if (movieSeats === null) {
     return <h1>Carregando...</h1>;
   }
-  console.log(movieSeats)
+
+  function bookRequest() {
+    setScreen("final");
+  }
 
   return (
     <SeatStyle>
@@ -27,60 +40,69 @@ export default function Seats({ showtimeId, seatsSelected, selectTheSeat }) {
         {movieSeats.seats.map((seat, i) => (
           <SeatButton
             key={seat.id}
-            onClick={() => seat.isAvailable && selectTheSeat(seat.id)}
-            isAvailable={seat.isAvailable + ""}
-            isSelected={seatsSelected.includes(seat.id) + ""}
-
+            onClick={() => seat.isAvailable && selectTheSeat(seat)}
+            isAvailable={String(seat.isAvailable)}
+            isSelected={
+              String(seatsSelected.filter((s) => s.id === seat.id).length !== 0)
+            }
           >
-            {i < 10 && 0}
-            {i}
+            {i < 9 && 0}
+            {i + 1}
           </SeatButton>
         ))}
       </SeatsListStyle>
       <LegendStyle>
-        <div>  
-          <SeatButton isAvailable="true" isSelected="true" ></SeatButton>
+        <div>
+          <SeatButton isAvailable="true" isSelected="true"></SeatButton>
           <p>Selecionado</p>
         </div>
-        <div>  
-          <SeatButton isAvailable="true" isSelected="false" ></SeatButton>
+        <div>
+          <SeatButton isAvailable="true" isSelected="false"></SeatButton>
           <p>Disponível</p>
         </div>
         <div>
-          <SeatButton isAvailable="false" isSelected="false" ></SeatButton>
+          <SeatButton isAvailable="false" isSelected="false"></SeatButton>
           <p>Indisponível</p>
-        </div>        
+        </div>
       </LegendStyle>
       <InputStyle>
         <p>Nome do comprador:</p>
-        <input placeholder="Digite seu nome..."></input>
+        <input
+          placeholder="Digite seu nome..."
+          value={nameInput}
+          onChange={(e) => setNameInput(e.target.value)}
+        ></input>
       </InputStyle>
       <InputStyle>
         <p>CPF do comprador:</p>
-        <input placeholder="Digite seu CPF  ..."></input>
+        <input
+          placeholder="Digite seu CPF  ..."
+          value={cpfInput}
+          onChange={(e) => setCpfInput(e.target.value)}
+        ></input>
       </InputStyle>
-      <BookButton>Reservar assento{seatsSelected.length > 1 && "s"}</BookButton>
+      <BookButton onClick={bookRequest}>
+        Reservar assento{seatsSelected.length > 1 && "s"}
+      </BookButton>
     </SeatStyle>
   );
 }
 
 function returnSeatColor(seatIsAvailable, seatIsSelected) {
-  
-  if(seatIsAvailable === "true" && seatIsSelected === "true"){
+  if (seatIsAvailable === "true" && seatIsSelected === "true") {
     return "#1AAE9E";
   }
-  if(seatIsAvailable === "true" && seatIsSelected === "false"){
+  if (seatIsAvailable === "true" && seatIsSelected === "false") {
     return "#C3CFD9";
   }
   return "#FBE192";
 }
 
 function returnBorderColor(seatIsAvailable, seatIsSelected) {
-  
-  if(seatIsAvailable === "true" && seatIsSelected === "true"){
+  if (seatIsAvailable === "true" && seatIsSelected === "true") {
     return "1px solid #0E7D71";
   }
-  if(seatIsAvailable === "true" && seatIsSelected === "false"){
+  if (seatIsAvailable === "true" && seatIsSelected === "false") {
     return "1px solid #7B8B99";
   }
   return "1px solid #F7C52B";
@@ -122,8 +144,9 @@ const SeatButton = styled.button`
   font-size: 11px;
   width: 7vw;
   height: 7vw;
-  background-color: ${props => returnSeatColor(props.isAvailable, props.isSelected)};
-  border: ${props => returnBorderColor(props.isAvailable, props.isSelected)};
+  background-color: ${(props) =>
+    returnSeatColor(props.isAvailable, props.isSelected)};
+  border: ${(props) => returnBorderColor(props.isAvailable, props.isSelected)};
   border-radius: 4vw;
   margin-bottom: 2vw;
 `;
@@ -133,32 +156,32 @@ const LegendStyle = styled.div`
   margin: 2vh 0 4.5vh 0;
   justify-content: center;
 
-  div{
+  div {
     width: 24vw;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  p{
+  p {
     font-size: 13px;
-    color: #4E5A65;
+    color: #4e5a65;
   }
-`
+`;
 const InputStyle = styled.div`
   margin-top: 1vh;
   color: #293845;
   font-size: 18px;
   line-height: 25px;
-  input{
+  input {
     width: 84vw;
     height: 13.6vw;
-    border: 1px solid #D4D4D4;
+    border: 1px solid #d4d4d4;
     border-radius: 3px;
     padding-left: 3vw;
     box-sizing: border-box;
 
-    ::placeholder{
+    ::placeholder {
       font-family: "Roboto", sans-serif;
       font-style: italic;
       font-size: 18px;
@@ -166,7 +189,7 @@ const InputStyle = styled.div`
       opacity: 1;
     }
   }
-`
+`;
 
 const BookButton = styled.button`
   width: 60vw;
@@ -178,4 +201,4 @@ const BookButton = styled.button`
   font-size: 18px;
   margin: 7vh 0 3.5vh 0;
   min-height: 5vh;
-`
+`;
