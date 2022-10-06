@@ -2,12 +2,10 @@ import styled from "styled-components";
 import DayOptions from "./DayOptions";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-export default function Schedule({
-  movieIdSelected,
-  setShowtimeId,
-  setScreen,
-}) {
+export default function Schedule() {
+  const {idFilme: movieIdSelected} = useParams(); 
   const [chosenMovie, setChosenMovie] = useState(null);
   useEffect(() => {
     axios
@@ -31,8 +29,6 @@ export default function Schedule({
           <DayOptions
             key={day.id}
             day={day}
-            setShowtimeId={setShowtimeId}
-            setScreen={setScreen}
           />
         ))}
       </div>

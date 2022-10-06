@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function FinalScreen({
   nameInput,
@@ -62,7 +63,8 @@ export default function FinalScreen({
         </p>
       </SectionStyle>
       <HomeButton>
-        <button onClick={returnToHome}>Voltar pra Home</button>
+      <Link to="/" onClick={returnToHome} ><button>Voltar pra Home</button></Link>
+        
       </HomeButton>
     </FinalStyle>
   );

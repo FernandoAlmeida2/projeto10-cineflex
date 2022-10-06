@@ -1,23 +1,17 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-export default function DayOptions({ day, setShowtimeId, setScreen }) {
-  function showtimeSelected(showtimeId) {
-    setShowtimeId(showtimeId);
-    setScreen("seats");
-  }
+export default function DayOptions({ day, setScreen }) {
   return (
     <DayStyle>
       <h1>
         {day.weekday} - {day.date}
       </h1>
       <div>
-        {day.showtimes.map((showtime, i) => (
-          <ShowtimeButton
-            key={showtime.id}
-            onClick={() => showtimeSelected(showtime.id)}
-          >
-            {showtime.name}
-          </ShowtimeButton>
+        {day.showtimes.map((showtime) => (
+          <Link to={`/assentos/${showtime.id}`} key={showtime.id} >
+            <ShowtimeButton >{showtime.name}</ShowtimeButton>
+          </Link>
         ))}
       </div>
     </DayStyle>

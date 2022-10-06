@@ -3,7 +3,7 @@ import Movie from "./Movie";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function Home({ setScreen, setMovieOption }) {
+export default function Home({ setMovieOption }) {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
     axios
@@ -28,7 +28,6 @@ export default function Home({ setScreen, setMovieOption }) {
           <Movie
             key={movie.id}
             movie={movie}
-            setScreen={setScreen}
             setMovieOption={setMovieOption}
           />
         ))}

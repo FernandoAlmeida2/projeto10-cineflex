@@ -1,15 +1,12 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-export default function Movie({ movie, setScreen, setMovieOption }) {
-
-  function optionSelected(){
-    setScreen("schedule");
-    setMovieOption(movie);
-  }
-
+export default function Movie({ movie, setMovieOption }) {
   return (
     <MovieStyle>
-      <img src={movie.posterURL} alt="Não foi possível carregar a imagem" onClick={optionSelected} />
+      <Link to={`/sessoes/${movie.id}`} onClick={() => setMovieOption(movie)}>
+        <img src={movie.posterURL} alt="Não foi possível carregar a imagem" />
+      </Link>
     </MovieStyle>
   );
 }

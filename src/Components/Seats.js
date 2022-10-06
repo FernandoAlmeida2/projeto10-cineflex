@@ -1,19 +1,19 @@
 import styled from "styled-components";
 import { useEffect } from "react";
 import axios from "axios";
+import { useParams, Link } from "react-router-dom";
 
 export default function Seats({
-  showtimeId,
   seatsSelected,
   selectTheSeat,
   nameInput,
   setNameInput,
   cpfInput,
   setCpfInput,
-  setScreen,
   movieSeats,
   setMovieSeats,
 }) {
+  const { idSessao: showtimeId } = useParams();
   useEffect(() => {
     axios
       .get(
@@ -27,10 +27,6 @@ export default function Seats({
     return <h1>Carregando...</h1>;
   }
 
-  function bookRequest() {
-    setScreen("final");
-  }
-
   return (
     <SeatStyle>
       <SeatsTitle>
@@ -42,9 +38,9 @@ export default function Seats({
             key={seat.id}
             onClick={() => seat.isAvailable && selectTheSeat(seat)}
             isAvailable={String(seat.isAvailable)}
-            isSelected={
-              String(seatsSelected.filter((s) => s.id === seat.id).length !== 0)
-            }
+            isSelected={String(
+              seatsSelected.filter((s) => s.id === seat.id).length !== 0
+            )}
           >
             {i < 9 && 0}
             {i + 1}
@@ -81,9 +77,11 @@ export default function Seats({
           onChange={(e) => setCpfInput(e.target.value)}
         ></input>
       </InputStyle>
-      <BookButton onClick={bookRequest}>
-        Reservar assento{seatsSelected.length > 1 && "s"}
-      </BookButton>
+      <Link to="/sucesso" >
+        <BookButton>
+          Reservar assento{seatsSelected.length > 1 && "s"}
+        </BookButton>
+      </Link>
     </SeatStyle>
   );
 }

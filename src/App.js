@@ -6,24 +6,21 @@ import Schedule from "./Components/Schedule";
 import Footer from "./Components/Footer";
 import Seats from "./Components/Seats";
 import FinalScreen from "./Components/FinalScreen";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default function App() {
-  const [screenOption, setScreen] = useState("home");
-  const [movieSelected, setMovieOption] = useState(null);
-  const [showtimeIdSelected, setShowtimeId] = useState(null);
+  const [movieSelected, setMovieOption] = useState("");
   const [seatsSelected, setSeatOption] = useState([]);
   const [nameInput, setNameInput] = useState("");
   const [cpfInput, setCpfInput] = useState("");
   const [movieSeats, setMovieSeats] = useState(null);
 
-  function returnToHome(){
-    setMovieOption(null);
-    setShowtimeId(null);
+  function returnToHome() {
+    setMovieOption("");
     setSeatOption([]);
     setNameInput("");
     setCpfInput("");
-    setMovieSeats(null)
-    setScreen("home")
+    setMovieSeats(null);
   }
 
   function selectTheSeat(seat) {
@@ -34,7 +31,62 @@ export default function App() {
     }
   }
 
-  switch (screenOption) {
+  return (
+    <BrowserRouter>
+      <ResetStyle />
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home setMovieOption={setMovieOption} />} />
+        <Route
+          path="/sessoes/:idFilme"
+          element={
+            <>
+              <Schedule />
+              <Footer
+                imageSrc={movieSelected.posterURL}
+                title={movieSelected.title}
+              />
+            </>
+          }
+        />
+        <Route
+          path="/assentos/:idSessao"
+          element={
+            <>
+              <Seats
+                seatsSelected={seatsSelected}
+                selectTheSeat={selectTheSeat}
+                nameInput={nameInput}
+                setNameInput={setNameInput}
+                cpfInput={cpfInput}
+                setCpfInput={setCpfInput}
+                movieSeats={movieSeats}
+                setMovieSeats={setMovieSeats}
+              />
+              <Footer
+                imageSrc={movieSelected.posterURL}
+                title={movieSelected.title}
+              />
+            </>
+          }
+        />
+        <Route
+          path="/sucesso"
+          element={
+            <FinalScreen
+              nameInput={nameInput}
+              cpfInput={cpfInput}
+              seatsSelected={seatsSelected}
+              movieSeats={movieSeats}
+              returnToHome={returnToHome}
+            />
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
+
+  /* switch (screenOption) {
     case "home":
       return (
         <>
@@ -100,5 +152,5 @@ export default function App() {
 
     default:
       return <h1>Deu merda</h1>;
-  }
+  } */
 }
