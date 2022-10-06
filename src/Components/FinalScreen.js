@@ -18,7 +18,6 @@ export default function FinalScreen({
         name: nameInput,
         cpf: cpfInput,
       };
-      console.log(requestData)
     axios
       .post(
         "https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many",
@@ -31,7 +30,6 @@ export default function FinalScreen({
   if (bookRequest === null) {
     return <h1>Enviando pedido...</h1>;
   }
-  console.log(bookRequest);
 
 
   return (

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useEffect } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
+import Footer from "./Footer";
 
 export default function Seats({
   seatsSelected,
@@ -27,62 +28,78 @@ export default function Seats({
     return <h1>Carregando...</h1>;
   }
 
+  function seatClicked(seat) {
+    if (seat.isAvailable) {
+      selectTheSeat(seat);
+    } else {
+      alert("Esse assento não está disponível");
+    }
+  }
+
   return (
-    <SeatStyle>
-      <SeatsTitle>
-        <p>Selecione o(s) assento(s)</p>
-      </SeatsTitle>
-      <SeatsListStyle>
-        {movieSeats.seats.map((seat, i) => (
-          <SeatButton
-            key={seat.id}
-            onClick={() => seat.isAvailable && selectTheSeat(seat)}
-            isAvailable={String(seat.isAvailable)}
-            isSelected={String(
-              seatsSelected.filter((s) => s.id === seat.id).length !== 0
-            )}
-          >
-            {i < 9 && 0}
-            {i + 1}
-          </SeatButton>
-        ))}
-      </SeatsListStyle>
-      <LegendStyle>
-        <div>
-          <SeatButton isAvailable="true" isSelected="true"></SeatButton>
-          <p>Selecionado</p>
-        </div>
-        <div>
-          <SeatButton isAvailable="true" isSelected="false"></SeatButton>
-          <p>Disponível</p>
-        </div>
-        <div>
-          <SeatButton isAvailable="false" isSelected="false"></SeatButton>
-          <p>Indisponível</p>
-        </div>
-      </LegendStyle>
-      <InputStyle>
-        <p>Nome do comprador:</p>
-        <input
-          placeholder="Digite seu nome..."
-          value={nameInput}
-          onChange={(e) => setNameInput(e.target.value)}
-        ></input>
-      </InputStyle>
-      <InputStyle>
-        <p>CPF do comprador:</p>
-        <input
-          placeholder="Digite seu CPF  ..."
-          value={cpfInput}
-          onChange={(e) => setCpfInput(e.target.value)}
-        ></input>
-      </InputStyle>
-      <Link to="/sucesso" >
-        <BookButton>
-          Reservar assento{seatsSelected.length > 1 && "s"}
-        </BookButton>
-      </Link>
-    </SeatStyle>
+    <>
+      <SeatStyle>
+        <SeatsTitle>
+          <p>Selecione o(s) assento(s)</p>
+        </SeatsTitle>
+        <SeatsListStyle>
+          {movieSeats.seats.map((seat, i) => (
+            <SeatButton
+              key={seat.id}
+              onClick={() => seatClicked(seat)}
+              isAvailable={String(seat.isAvailable)}
+              isSelected={String(
+                seatsSelected.filter((s) => s.id === seat.id).length !== 0
+              )}
+            >
+              {i < 9 && 0}
+              {i + 1}
+            </SeatButton>
+          ))}
+        </SeatsListStyle>
+        <LegendStyle>
+          <div>
+            <SeatButton isAvailable="true" isSelected="true"></SeatButton>
+            <p>Selecionado</p>
+          </div>
+          <div>
+            <SeatButton isAvailable="true" isSelected="false"></SeatButton>
+            <p>Disponível</p>
+          </div>
+          <div>
+            <SeatButton isAvailable="false" isSelected="false"></SeatButton>
+            <p>Indisponível</p>
+          </div>
+        </LegendStyle>
+        <InputStyle>
+          <p>Nome do comprador:</p>
+          <input
+            placeholder="Digite seu nome..."
+            value={nameInput}
+            onChange={(e) => setNameInput(e.target.value)}
+          ></input>
+        </InputStyle>
+        <InputStyle>
+          <p>CPF do comprador:</p>
+          <input
+            placeholder="Digite seu CPF  ..."
+            value={cpfInput}
+            onChange={(e) => setCpfInput(e.target.value)}
+          ></input>
+        </InputStyle>
+        <Link to="/sucesso">
+          <BookButton>
+            Reservar assento{seatsSelected.length > 1 && "s"}
+          </BookButton>
+        </Link>
+      </SeatStyle>
+      <Footer
+        imageSrc={movieSeats.movie.posterURL}
+        title={movieSeats.movie.title}
+      >
+        {movieSeats.day.weekday} - {movieSeats.name}
+      </Footer>
+    </>
   );
 }
 

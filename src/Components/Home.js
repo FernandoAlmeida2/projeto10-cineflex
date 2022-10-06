@@ -3,19 +3,18 @@ import Movie from "./Movie";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function Home({ setMovieOption }) {
+export default function Home({ setIsHome }) {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
+    setIsHome(true);
     axios
       .get("https://mock-api.driven.com.br/api/v5/cineflex/movies")
       .then((res) => setMovies(res.data))
       .catch((err) => console.log(err.response.data));
-  }, []);
+  }, [setIsHome]);
 
-  if(movies.length === 0){
-    return(
-      <h1>Carregando...</h1>
-    )
+  if (movies.length === 0) {
+    return <h1>Carregando...</h1>;
   }
 
   return (
@@ -25,11 +24,7 @@ export default function Home({ setMovieOption }) {
       </HomeTitle>
       <MoviesStyle>
         {movies.map((movie) => (
-          <Movie
-            key={movie.id}
-            movie={movie}
-            setMovieOption={setMovieOption}
-          />
+          <Movie key={movie.id} movie={movie} setIsHome={setIsHome} />
         ))}
       </MoviesStyle>
     </HomeStyle>

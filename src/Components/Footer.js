@@ -1,12 +1,15 @@
 import styled from "styled-components";
 
-export default function Footer({ imageSrc, title }) {
+export default function Footer({ imageSrc, title, children }) {
   return (
     <FooterStyle>
       <MovieDiv>
         <img src={imageSrc} alt={"Não foi possível carregar a imagem"}></img>
       </MovieDiv>
-      <p>{title}</p>
+      <div>
+        <p>{title}</p>
+        <p>{children}</p>
+      </div>
     </FooterStyle>
   );
 }
@@ -28,6 +31,7 @@ const FooterStyle = styled.div`
     font-size: 26px;
     font-weight: 400;
     color: #293845;
+    line-height: 30px;
   }
 `;
 

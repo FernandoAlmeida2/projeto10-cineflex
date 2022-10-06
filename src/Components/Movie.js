@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-export default function Movie({ movie, setMovieOption }) {
+export default function Movie({ movie, setIsHome }) {
   return (
     <MovieStyle>
-      <Link to={`/sessoes/${movie.id}`} onClick={() => setMovieOption(movie)}>
+      <Link to={`/sessoes/${movie.id}`} onClick={() => setIsHome(false)} >
         <img src={movie.posterURL} alt="Não foi possível carregar a imagem" />
       </Link>
     </MovieStyle>

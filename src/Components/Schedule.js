@@ -3,9 +3,10 @@ import DayOptions from "./DayOptions";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Footer from "./Footer";
 
 export default function Schedule() {
-  const {idFilme: movieIdSelected} = useParams(); 
+  const { idFilme: movieIdSelected } = useParams();
   const [chosenMovie, setChosenMovie] = useState(null);
   useEffect(() => {
     axios
@@ -20,19 +21,19 @@ export default function Schedule() {
     return <h1>Carregando...</h1>;
   }
   return (
-    <ScheduleStyle>
-      <ScheduleTitle>
-        <p>Selecione o horário</p>
-      </ScheduleTitle>
-      <div>
-        {chosenMovie.days.map((day, i) => (
-          <DayOptions
-            key={day.id}
-            day={day}
-          />
-        ))}
-      </div>
-    </ScheduleStyle>
+    <>
+      <ScheduleStyle>
+        <ScheduleTitle>
+          <p>Selecione o horário</p>
+        </ScheduleTitle>
+        <div>
+          {chosenMovie.days.map((day, i) => (
+            <DayOptions key={day.id} day={day} />
+          ))}
+        </div>
+      </ScheduleStyle>
+      <Footer imageSrc={chosenMovie.posterURL} title={chosenMovie.title} />
+    </>
   );
 }
 
