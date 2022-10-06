@@ -4,33 +4,40 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function FinalScreen({
-  nameInput,
-  cpfInput,
+  nameInputs,
+  cpfInputs,
   seatsSelected,
   movieSeats,
   returnToHome,
 }) {
   const [bookRequest, setRequest] = useState(null);
-   useEffect(() => {
+  useEffect(() => {
+    const clientsList = [];
     const idsSelected = seatsSelected.map((seat) => seat.id)
-    const requestData = {
-        ids: [...idsSelected],
-        name: nameInput,
-        cpf: cpfInput,
-      };
+    for (let i = 0; i < seatsSelected.length; i++) {
+      clientsList.push({
+        compradores: [
+          {
+            idAssento: seatsSelected[i],
+            nome: nameInputs[i],
+            cpf: cpfInputs[i],
+          },
+        ],
+      });
+    }
     axios
       .post(
         "https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many",
-        requestData
+        {ids: idsSelected, ...clientsList}
       )
       .then((res) => setRequest(res))
       .catch((err) => console.log(err.response.data));
-  }, [cpfInput, nameInput,seatsSelected]);
+  }, [cpfInputs, nameInputs, seatsSelected]);
+  console.log(bookRequest);
 
   if (bookRequest === null) {
     return <h1>Enviando pedido...</h1>;
   }
-
 
   return (
     <FinalStyle>
@@ -52,17 +59,22 @@ export default function FinalScreen({
           <p key={seat.id}>Assento {seat.name}</p>
         ))}
       </SectionStyle>
-      <SectionStyle>
-        <h2>Comprador</h2>
-        <p>Nome: {nameInput}</p>
-        <p>
-          CPF: {cpfInput.slice(0, 3)}.{cpfInput.slice(3, 6)}.
-          {cpfInput.slice(6, 9)}-{cpfInput.slice(9)}
-        </p>
-      </SectionStyle>
+
+      {nameInputs.map((name, i) => (
+        <SectionStyle key={seatsSelected[i].id}>
+          <h2>Comprador {i+1}</h2>
+          <p>Nome: {name}</p>
+          <p>
+            CPF: {cpfInputs[i].slice(0, 3)}.{cpfInputs[i].slice(3, 6)}.
+            {cpfInputs[i].slice(6, 9)}-{cpfInputs[i].slice(9)}
+          </p>
+        </SectionStyle>
+      ))}
+
       <HomeButton>
-      <Link to="/" onClick={returnToHome} ><button>Voltar pra Home</button></Link>
-        
+        <Link to="/" onClick={returnToHome}>
+          <button>Voltar pra Home</button>
+        </Link>
       </HomeButton>
     </FinalStyle>
   );

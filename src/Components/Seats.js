@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect} from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import Footer from "./Footer";
@@ -7,10 +7,8 @@ import Footer from "./Footer";
 export default function Seats({
   seatsSelected,
   selectTheSeat,
-  nameInput,
-  setNameInput,
-  cpfInput,
-  setCpfInput,
+  addInputName,
+  addInputCpf,
   movieSeats,
   setMovieSeats,
 }) {
@@ -71,22 +69,27 @@ export default function Seats({
             <p>Indisponível</p>
           </div>
         </LegendStyle>
-        <InputStyle>
-          <p>Nome do comprador:</p>
-          <input
-            placeholder="Digite seu nome..."
-            value={nameInput}
-            onChange={(e) => setNameInput(e.target.value)}
-          ></input>
-        </InputStyle>
-        <InputStyle>
-          <p>CPF do comprador:</p>
-          <input
-            placeholder="Digite seu CPF  ..."
-            value={cpfInput}
-            onChange={(e) => setCpfInput(e.target.value)}
-          ></input>
-        </InputStyle>
+        {seatsSelected.map((seat, index) => {
+          
+          return (
+            <div key={seat.id}>
+              <InputStyle>
+                <p>Nome do comprador (assento {seat.name}):</p>
+                <input
+                  placeholder="Digite seu nome..."
+                  onChange={(e) => addInputName(e.target.value, index)}
+                ></input>
+              </InputStyle>
+              <InputStyle>
+                <p>CPF do comprador (assento {seat.name}):</p>
+                <input
+                  placeholder="Digite seu CPF  ..." 
+                  onChange={(e) => addInputCpf(e.target.value, index)}
+                ></input>
+              </InputStyle>
+            </div>
+          );
+        })}
         <Link to="/sucesso">
           <BookButton>
             Reservar assento{seatsSelected.length > 1 && "s"}
@@ -183,6 +186,7 @@ const LegendStyle = styled.div`
     color: #4e5a65;
   }
 `;
+
 const InputStyle = styled.div`
   margin-top: 1vh;
   color: #293845;
