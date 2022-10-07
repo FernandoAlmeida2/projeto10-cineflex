@@ -16,7 +16,7 @@ export default function App() {
   const [isHome, setIsHome] = useState(true);
   const navigate = useNavigate();
 
-  function returnToHome() {
+  function resetStates() {
     setSeatOption([]);
     setNameInput([]);
     setCpfInput([]);
@@ -83,79 +83,11 @@ export default function App() {
               cpfInputs={arrayCpfInput}
               seatsSelected={seatsSelected}
               movieSeats={movieSeats}
-              returnToHome={returnToHome}
+              resetStates={resetStates}
             />
           }
         />
       </Routes>
     </>
   );
-
-  /* switch (screenOption) {
-    case "home":
-      return (
-        <>
-          <ResetStyle />
-          <Header />
-          <Home setScreen={setScreen} setMovieOption={setMovieOption} />
-        </>
-      );
-    case "schedule":
-      return (
-        <>
-          <ResetStyle />
-          <Header />
-          <Schedule
-            movieIdSelected={movieSelected.id}
-            setShowtimeId={setShowtimeId}
-            setScreen={setScreen}
-          />
-          <Footer
-            imageSrc={movieSelected.posterURL}
-            title={movieSelected.title}
-          />
-        </>
-      );
-    case "seats":
-      return (
-        <>
-          <ResetStyle />
-          <Header />
-          <Seats
-            showtimeId={showtimeIdSelected}
-            seatsSelected={seatsSelected}
-            selectTheSeat={selectTheSeat}
-            nameInput={nameInput}
-            setNameInput={setNameInput}
-            cpfInput={cpfInput}
-            setCpfInput={setCpfInput}
-            setScreen={setScreen}
-            movieSeats={movieSeats}
-            setMovieSeats={setMovieSeats}
-          />
-          <Footer
-            imageSrc={movieSelected.posterURL}
-            title={movieSelected.title}
-          />
-        </>
-      );
-    case "final":
-      return (
-        <>
-          <ResetStyle />
-          <Header />
-          <FinalScreen
-            nameInput={nameInput}
-            cpfInput={cpfInput}
-            seatsSelected={seatsSelected}
-            movieSeats={movieSeats}
-            setScreen={setScreen}
-            returnToHome={returnToHome}
-          />
-        </>
-      );
-
-    default:
-      return <h1>Deu merda</h1>;
-  } */
 }

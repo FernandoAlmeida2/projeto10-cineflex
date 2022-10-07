@@ -21,6 +21,7 @@ const MovieStyle = styled.div`
   align-items: center;
 
   img {
+    cursor: pointer;
     width: 34vw;
     height: 24vh;
   }

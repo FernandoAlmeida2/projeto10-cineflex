@@ -20,7 +20,7 @@ const HeaderStyle = styled.div`
   align-items: center;
   width: 100vw;
   height: 8vh;
-  position: absolute;
+  position: fixed;
   color: #e8833a;
   top: 0;
 
@@ -40,6 +40,7 @@ const ReturnStyle = styled.div`
   gap: 1vh;
   font-size: 12px;
   font-weight: 700;
+  cursor: pointer;
 
   img{
     height: 2.5vh;

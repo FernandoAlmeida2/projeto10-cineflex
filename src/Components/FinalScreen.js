@@ -8,7 +8,7 @@ export default function FinalScreen({
   cpfInputs,
   seatsSelected,
   movieSeats,
-  returnToHome,
+  resetStates,
 }) {
   const [bookRequest, setRequest] = useState(null);
   useEffect(() => {
@@ -33,7 +33,6 @@ export default function FinalScreen({
       .then((res) => setRequest(res))
       .catch((err) => console.log(err.response.data));
   }, [cpfInputs, nameInputs, seatsSelected]);
-  console.log(bookRequest);
 
   if (bookRequest === null) {
     return <h1>Enviando pedido...</h1>;
@@ -72,7 +71,7 @@ export default function FinalScreen({
       ))}
 
       <HomeButton>
-        <Link to="/" onClick={returnToHome}>
+        <Link to="/" onClick={resetStates}>
           <button>Voltar pra Home</button>
         </Link>
       </HomeButton>
@@ -120,5 +119,6 @@ const HomeButton = styled.div`
     font-size: 18px;
     margin-top: 7vh;
     min-height: 5vh;
+    cursor: pointer;
   }
 `;

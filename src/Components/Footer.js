@@ -19,7 +19,7 @@ const FooterStyle = styled.div`
   height: 13.4vh;
   display: flex;
   align-items: center;
-  position: absolute;
+  position: fixed;
   left: 0;
   bottom: 0;
   background-color: #dfe6ed;

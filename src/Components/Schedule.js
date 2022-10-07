@@ -38,7 +38,7 @@ export default function Schedule() {
 }
 
 const ScheduleStyle = styled.main`
-  height: 78vh;
+  max-height: 78.6vh;
   display: flex;
   flex-direction: column;
   font-family: "Roboto", sans-serif;

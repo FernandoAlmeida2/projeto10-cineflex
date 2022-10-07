@@ -45,4 +45,5 @@ const ShowtimeButton = styled.button`
   color: #ffffff;
   border-radius: 3px;
   font-size: 18px;
+  cursor: pointer;
 `;

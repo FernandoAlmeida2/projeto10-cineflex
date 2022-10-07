@@ -127,7 +127,7 @@ function returnBorderColor(seatIsAvailable, seatIsSelected) {
 }
 
 const SeatStyle = styled.div`
-  height: 78vh;
+  max-height: 78.6vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -167,6 +167,7 @@ const SeatButton = styled.button`
   border: ${(props) => returnBorderColor(props.isAvailable, props.isSelected)};
   border-radius: 4vw;
   margin-bottom: 2vw;
+  cursor: pointer;
 `;
 
 const LegendStyle = styled.div`
@@ -220,4 +221,5 @@ const BookButton = styled.button`
   font-size: 18px;
   margin: 7vh 0 3.5vh 0;
   min-height: 5vh;
+  cursor: pointer;
 `;
