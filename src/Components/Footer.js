@@ -3,10 +3,10 @@ import styled from "styled-components";
 export default function Footer({ imageSrc, title, children }) {
   return (
     <FooterStyle>
-      <MovieDiv>
+      <MovieDiv data-identifier="movie-img-preview">
         <img src={imageSrc} alt={"Não foi possível carregar a imagem"}></img>
       </MovieDiv>
-      <div>
+      <div data-identifier="movie-and-session-infos-preview">
         <p>{title}</p>
         <p>{children}</p>
       </div>

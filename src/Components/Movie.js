@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Movie({ movie, setIsHome }) {
   return (
-    <MovieStyle>
+    <MovieStyle data-identifier="movie-outdoor">
       <Link to={`/sessoes/${movie.id}`} onClick={() => setIsHome(false)} >
         <img src={movie.posterURL} alt="Não foi possível carregar a imagem" />
       </Link>

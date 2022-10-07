@@ -13,23 +13,23 @@ export default function FinalScreen({
   const [bookRequest, setRequest] = useState(null);
   useEffect(() => {
     const clientsList = [];
-    const idsSelected = seatsSelected.map((seat) => seat.id)
+    const idsSelected = seatsSelected.map((seat) => seat.id);
     for (let i = 0; i < seatsSelected.length; i++) {
       clientsList.push({
         compradores: [
           {
-            idAssento: seatsSelected[i],
-            nome: nameInputs[i],
-            cpf: cpfInputs[i],
+            idAssento: nameInputs[i].id,
+            nome: nameInputs[i].name,
+            cpf: cpfInputs[i].cpf,
           },
         ],
       });
     }
     axios
-      .post(
-        "https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many",
-        {ids: idsSelected, ...clientsList}
-      )
+      .post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", {
+        ids: idsSelected,
+        ...clientsList,
+      })
       .then((res) => setRequest(res))
       .catch((err) => console.log(err.response.data));
   }, [cpfInputs, nameInputs, seatsSelected]);
@@ -37,7 +37,6 @@ export default function FinalScreen({
   if (bookRequest === null) {
     return <h1>Enviando pedido...</h1>;
   }
-
   return (
     <FinalStyle>
       <h1>
@@ -47,32 +46,36 @@ export default function FinalScreen({
       </h1>
       <SectionStyle>
         <h2>Filme e sessão</h2>
-        <p>{movieSeats.movie.title}</p>
-        <p>
+        <p data-identifier="movie-session-infos-reserve-finished">
+          {movieSeats.movie.title}
+          <br />
           {movieSeats.day.date} {movieSeats.name}
         </p>
       </SectionStyle>
       <SectionStyle>
         <h2>Ingressos</h2>
         {seatsSelected.map((seat) => (
-          <p key={seat.id}>Assento {seat.name}</p>
+          <p key={seat.id} data-identifier="seat-infos-reserve-finished">
+            Assento {seat.name}
+          </p>
         ))}
       </SectionStyle>
 
-      {nameInputs.map((name, i) => (
+      {nameInputs.map((n, i) => (
         <SectionStyle key={seatsSelected[i].id}>
-          <h2>Comprador {i+1}</h2>
-          <p>Nome: {name}</p>
-          <p>
-            CPF: {cpfInputs[i].slice(0, 3)}.{cpfInputs[i].slice(3, 6)}.
-            {cpfInputs[i].slice(6, 9)}-{cpfInputs[i].slice(9)}
+          <h2>Comprador {i + 1}</h2>
+          <p data-identifier="buyer-infos-reserve-finished">
+            Nome: {n.name}
+            <br />
+            CPF: {cpfInputs[i].cpf.slice(0, 3)}.{cpfInputs[i].cpf.slice(3, 6)}.
+            {cpfInputs[i].cpf.slice(6, 9)}-{cpfInputs[i].cpf.slice(9)}
           </p>
         </SectionStyle>
       ))}
 
       <HomeButton>
         <Link to="/" onClick={resetStates}>
-          <button>Voltar pra Home</button>
+          <button data-identifier="back-to-home-btn">Voltar pra Home</button>
         </Link>
       </HomeButton>
     </FinalStyle>

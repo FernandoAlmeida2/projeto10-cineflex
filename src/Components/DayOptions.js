@@ -10,7 +10,7 @@ export default function DayOptions({ day, setScreen }) {
       <div>
         {day.showtimes.map((showtime) => (
           <Link to={`/assentos/${showtime.id}`} key={showtime.id} >
-            <ShowtimeButton >{showtime.name}</ShowtimeButton>
+            <ShowtimeButton data-identifier="hour-minute-btn" >{showtime.name}</ShowtimeButton>
           </Link>
         ))}
       </div>

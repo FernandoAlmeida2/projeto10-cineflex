@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect} from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import Footer from "./Footer";
@@ -26,9 +26,9 @@ export default function Seats({
     return <h1>Carregando...</h1>;
   }
 
-  function seatClicked(seat) {
+  function seatClicked(seat, index) {
     if (seat.isAvailable) {
-      selectTheSeat(seat);
+      selectTheSeat(seat, index);
     } else {
       alert("Esse assento não está disponível");
     }
@@ -43,8 +43,9 @@ export default function Seats({
         <SeatsListStyle>
           {movieSeats.seats.map((seat, i) => (
             <SeatButton
+              data-identifier="seat"
               key={seat.id}
-              onClick={() => seatClicked(seat)}
+              onClick={() => seatClicked(seat, i)}
               isAvailable={String(seat.isAvailable)}
               isSelected={String(
                 seatsSelected.filter((s) => s.id === seat.id).length !== 0
@@ -57,41 +58,54 @@ export default function Seats({
         </SeatsListStyle>
         <LegendStyle>
           <div>
-            <SeatButton isAvailable="true" isSelected="true"></SeatButton>
+            <SeatButton
+              data-identifier="seat-selected-subtitle"
+              isAvailable="true"
+              isSelected="true"
+            ></SeatButton>
             <p>Selecionado</p>
           </div>
           <div>
-            <SeatButton isAvailable="true" isSelected="false"></SeatButton>
+            <SeatButton
+              data-identifier="seat-available-subtitle"
+              isAvailable="true"
+              isSelected="false"
+            ></SeatButton>
             <p>Disponível</p>
           </div>
           <div>
-            <SeatButton isAvailable="false" isSelected="false"></SeatButton>
+            <SeatButton
+              data-identifier="seat-unavailable-subtitle"
+              isAvailable="false"
+              isSelected="false"
+            ></SeatButton>
             <p>Indisponível</p>
           </div>
         </LegendStyle>
         {seatsSelected.map((seat, index) => {
-          
           return (
             <div key={seat.id}>
               <InputStyle>
                 <p>Nome do comprador (assento {seat.name}):</p>
                 <input
+                  data-identifier="buyer-name-input"
                   placeholder="Digite seu nome..."
-                  onChange={(e) => addInputName(e.target.value, index)}
+                  onChange={(e) => addInputName(e.target.value, seat.id, index)}
                 ></input>
               </InputStyle>
               <InputStyle>
                 <p>CPF do comprador (assento {seat.name}):</p>
                 <input
-                  placeholder="Digite seu CPF  ..." 
-                  onChange={(e) => addInputCpf(e.target.value, index)}
+                  data-identifier="buyer-cpf-input"
+                  placeholder="Digite seu CPF  ..."
+                  onChange={(e) => addInputCpf(e.target.value, seat.id, index)}
                 ></input>
               </InputStyle>
             </div>
           );
         })}
         <Link to="/sucesso">
-          <BookButton>
+          <BookButton data-identifier="reservation-btn">
             Reservar assento{seatsSelected.length > 1 && "s"}
           </BookButton>
         </Link>

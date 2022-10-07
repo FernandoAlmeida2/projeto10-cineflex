@@ -24,23 +24,43 @@ export default function App() {
     setIsHome(true);
   }
 
-  function addInputName(nameValue, index) {
+  function addInputName(nameValue, seatId, index) {
     const newArrayName = [...arrayNameInput];
-    newArrayName[index] = nameValue;
+    if (index >= arrayNameInput.length) {
+      newArrayName.push({ name: nameValue, id: seatId });
+    } else {
+      newArrayName[index].name = nameValue;
+      newArrayName[index].id = seatId;
+    }
     setNameInput(newArrayName);
   }
 
-  function addInputCpf(cpfValue, index) {
+  function addInputCpf(cpfValue, seatId, index) {
     const newArrayCpf = [...arrayCpfInput];
-    newArrayCpf[index] = cpfValue;
+    if (index >= arrayCpfInput.length) {
+      newArrayCpf.push({ cpf: cpfValue, id: seatId });
+    } else {
+      newArrayCpf[index].cpf = cpfValue;
+      newArrayCpf[index].id = seatId;
+    }
     setCpfInput(newArrayCpf);
   }
 
-  function selectTheSeat(seat) {
+  function selectTheSeat(seat, index) {
     if (!seatsSelected.includes(seat)) {
       setSeatOption([...seatsSelected, seat]);
     } else {
-      setSeatOption(seatsSelected.filter((s) => s.id !== seat.id));
+      const seatNameInput = arrayNameInput.filter((n) => n.id === seat.id);
+      const seatCpfInput = arrayCpfInput.filter((c) => c.id === seat.id);
+      if (seatNameInput.length === 0 && seatCpfInput.length === 0) {
+        setSeatOption(seatsSelected.filter((s) => s.id !== seat.id));
+      } else if (
+        window.confirm(
+          "Deseja realmente desmarcar o assento e apagar os dados preenchidos?"
+        )
+      ) {
+        setSeatOption(seatsSelected.filter((s) => s.id !== seat.id));
+      }
     }
   }
 
